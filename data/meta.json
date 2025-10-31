@@ -1,0 +1,364 @@
+[
+  {
+    "id": "concept_selic",
+    "pergunta": "O que é a taxa SELIC?",
+    "resposta": "A SELIC é a taxa básica de juros da economia brasileira. Ela baliza o custo do crédito e a remuneração de aplicações pós-fixadas, influenciando consumo, investimentos e inflação.",
+    "tags": [
+      "juros",
+      "selic",
+      "banco central",
+      "macro"
+    ]
+  },
+  {
+    "id": "concept_ipca",
+    "pergunta": "O que é o IPCA?",
+    "resposta": "O IPCA é o índice oficial de inflação no Brasil, medindo a variação de preços de uma cesta de bens e serviços. Impacta reajustes, correções contratuais e o poder de compra.",
+    "tags": [
+      "inflação",
+      "ipca",
+      "índices de preços",
+      "macro"
+    ]
+  },
+  {
+    "id": "concept_dolar",
+    "pergunta": "O que afeta a cotação do dólar (USD/BRL)?",
+    "resposta": "USD/BRL varia com juros internos/externos, risco-país, fluxo de capitais, termos de troca e cenário global. Intervenções do BC e expectativas econômicas também pesam.",
+    "tags": [
+      "câmbio",
+      "dólar",
+      "usdbrl",
+      "macro"
+    ]
+  },
+  {
+    "id": "concept_dre",
+    "pergunta": "O que é DRE (Demonstração do Resultado do Exercício)?",
+    "resposta": "A DRE resume o desempenho econômico em um período: receitas, custos, despesas, resultado operacional e lucro líquido. É base para análise de rentabilidade e tomada de decisão.",
+    "tags": [
+      "dre",
+      "resultado",
+      "lucro",
+      "contabilidade"
+    ]
+  },
+  {
+    "id": "concept_balanco",
+    "pergunta": "O que é Balanço Patrimonial?",
+    "resposta": "O Balanço apresenta a posição financeira em uma data: Ativos (recursos), Passivos (obrigações) e Patrimônio Líquido. Equação: Ativo = Passivo + PL.",
+    "tags": [
+      "balanço",
+      "patrimônio líquido",
+      "ativo",
+      "passivo",
+      "contabilidade"
+    ]
+  },
+  {
+    "id": "concept_dfc",
+    "pergunta": "O que é DFC (Demonstração de Fluxo de Caixa)?",
+    "resposta": "A DFC mostra entradas/saídas de caixa por atividades operacionais, de investimento e financiamento. Esclarece geração e consumo de caixa, diferente do resultado econômico (DRE).",
+    "tags": [
+      "fluxo de caixa",
+      "dfc",
+      "caixa",
+      "contabilidade"
+    ]
+  },
+  {
+    "id": "concept_fluxo_caixa",
+    "pergunta": "O que é fluxo de caixa e por que é crítico?",
+    "resposta": "Fluxo de caixa é o controle de entradas e saídas de dinheiro ao longo do tempo. É crítico para solvência, planejamento de pagamentos, investimentos e negociação com bancos/fornecedores.",
+    "tags": [
+      "fluxo de caixa",
+      "tesouraria",
+      "liquidez"
+    ]
+  },
+  {
+    "id": "concept_regime_competencia_caixa",
+    "pergunta": "Diferença entre regime de competência e regime de caixa?",
+    "resposta": "Competência reconhece receitas/despesas quando ocorrem (independente de pagamento). Caixa considera quando o dinheiro entra/saí. DRE usa competência; DFC e tesouraria usam caixa.",
+    "tags": [
+      "competência",
+      "caixa",
+      "contabilidade",
+      "erp"
+    ]
+  },
+  {
+    "id": "concept_cmv_cpv",
+    "pergunta": "O que é CMV/CPV?",
+    "resposta": "CMV (Custo das Mercadorias Vendidas) e CPV (Custo dos Produtos Vendidos) representam os custos diretamente atribuíveis aos itens vendidos. Reduzem a receita para apurar a margem bruta.",
+    "tags": [
+      "cmv",
+      "cpv",
+      "custo",
+      "margem bruta"
+    ]
+  },
+  {
+    "id": "concept_margem_contribuicao",
+    "pergunta": "O que é margem de contribuição?",
+    "resposta": "É a diferença entre preço de venda e custos/disp. variáveis. Indica quanto sobra para cobrir custos fixos e gerar lucro. Base para mix de produto e pricing.",
+    "tags": [
+      "margem",
+      "pricing",
+      "custos",
+      "rentabilidade"
+    ]
+  },
+  {
+    "id": "concept_ponto_equilibrio",
+    "pergunta": "O que é ponto de equilíbrio (break-even)?",
+    "resposta": "Volume de vendas em que o lucro é zero: receitas cobrem todos os custos fixos e variáveis. Serve para metas de vendas e avaliação de viabilidade.",
+    "tags": [
+      "break-even",
+      "equilíbrio",
+      "custos",
+      "planejamento"
+    ]
+  },
+  {
+    "id": "concept_capital_giro",
+    "pergunta": "O que é capital de giro?",
+    "resposta": "É o recurso necessário para financiar o ciclo operacional (estoques, contas a receber) até o recebimento das vendas. Conectado ao ciclo financeiro e risco de liquidez.",
+    "tags": [
+      "capital de giro",
+      "liquidez",
+      "operacional"
+    ]
+  },
+  {
+    "id": "concept_ccc",
+    "pergunta": "O que é o Ciclo de Conversão de Caixa (CCC)?",
+    "resposta": "CCC = Prazo Médio de Estoque + Prazo Médio de Recebimento - Prazo Médio de Pagamento. Mede dias em que o capital de giro fica travado. Quanto menor, melhor.",
+    "tags": [
+      "ccc",
+      "ciclo financeiro",
+      "capital de giro",
+      "eficiência"
+    ]
+  },
+  {
+    "id": "concept_aging",
+    "pergunta": "O que é aging de contas a receber?",
+    "resposta": "Relatório que classifica títulos por faixas de atraso (ex.: 0–30, 31–60, 61–90, >90). Base para cobrança, provisão e gestão de inadimplência.",
+    "tags": [
+      "aging",
+      "contas a receber",
+      "inadimplência",
+      "cobrança"
+    ]
+  },
+  {
+    "id": "concept_inadimplencia",
+    "pergunta": "Como medir inadimplência?",
+    "resposta": "Indicadores usuais: % do saldo vencido/total, atraso médio ponderado, recuperação por faixa, write-off. Integrar com políticas de crédito e limites no ERP.",
+    "tags": [
+      "inadimplência",
+      "crédito",
+      "risco",
+      "recebíveis"
+    ]
+  },
+  {
+    "id": "concept_pdd",
+    "pergunta": "O que é PDD (Provisão para Devedores Duvidosos)?",
+    "resposta": "Provisão que antecipa perdas esperadas em recebíveis, com base em histórico de inadimplência/aging. Impacta DRE e PL; melhora realismo do resultado.",
+    "tags": [
+      "pdd",
+      "provisão",
+      "contas a receber",
+      "contabilidade"
+    ]
+  },
+  {
+    "id": "concept_conciliacao_bancaria",
+    "pergunta": "O que é conciliação bancária e por que é essencial?",
+    "resposta": "Processo de alinhamento de extratos bancários com o razão/ERP. Garante acurácia de saldos, identifica lançamentos pendentes, fraudes e falhas de processo.",
+    "tags": [
+      "conciliação",
+      "bancária",
+      "tesouraria",
+      "erp"
+    ]
+  },
+  {
+    "id": "concept_centro_custo",
+    "pergunta": "Para que servem centros de custo?",
+    "resposta": "Segmentam gastos/receitas por áreas/projetos, permitindo apurar performance, accountability e liberar relatórios gerenciais precisos no ERP.",
+    "tags": [
+      "centro de custo",
+      "controladoria",
+      "erp",
+      "gestão"
+    ]
+  },
+  {
+    "id": "concept_rateio",
+    "pergunta": "O que é rateio de despesas?",
+    "resposta": "Distribuição de despesas comuns entre centros de custo/projetos via chaves (ex.: headcount, m², receita). Aumenta precisão do resultado por área.",
+    "tags": [
+      "rateio",
+      "centros de custo",
+      "controladoria",
+      "erp"
+    ]
+  },
+  {
+    "id": "concept_orcamento",
+    "pergunta": "O que é orçamento e forecast?",
+    "resposta": "Orçamento define metas anuais; forecast atualiza projeções com dados recentes. Apoiam alocação de recursos e governança de despesas/receitas.",
+    "tags": [
+      "orçamento",
+      "forecast",
+      "planejamento",
+      "fp&a"
+    ]
+  },
+  {
+    "id": "concept_obz",
+    "pergunta": "O que é Orçamento Base Zero (OBZ)?",
+    "resposta": "Metodologia que exige justificar cada gasto do zero, em vez de aumentar históricos. Reduz ineficiências e fortalece disciplina orçamentária.",
+    "tags": [
+      "obz",
+      "orçamento",
+      "custos",
+      "eficiência"
+    ]
+  },
+  {
+    "id": "concept_npv",
+    "pergunta": "O que é NPV (Valor Presente Líquido)?",
+    "resposta": "Soma dos fluxos de caixa descontados menos o investimento inicial. Se NPV > 0, o projeto gera valor acima do custo de capital.",
+    "tags": [
+      "npv",
+      "valuation",
+      "investimentos",
+      "finanças corporativas"
+    ]
+  },
+  {
+    "id": "concept_irr",
+    "pergunta": "O que é IRR (Taxa Interna de Retorno)?",
+    "resposta": "Taxa de desconto que zera o NPV do projeto. Compara-se ao custo de capital; IRR maior indica atratividade, mas atenção a fluxos não convencionais.",
+    "tags": [
+      "irr",
+      "valuation",
+      "investimentos",
+      "finanças corporativas"
+    ]
+  },
+  {
+    "id": "concept_payback",
+    "pergunta": "O que é payback e suas limitações?",
+    "resposta": "Tempo para recuperar o investimento. Simples e intuitivo, mas ignora valor do dinheiro no tempo e fluxos após o payback.",
+    "tags": [
+      "payback",
+      "investimentos",
+      "priorização",
+      "limitações"
+    ]
+  },
+  {
+    "id": "concept_precificacao",
+    "pergunta": "Como pensar precificação com custos e valor percebido?",
+    "resposta": "Combine custo + margem-alvo (cost-plus) com preço de mercado e valor percebido. Avalie elasticidade, CAC/LTV e diferenciação para capturar margem.",
+    "tags": [
+      "pricing",
+      "margem",
+      "estratégia",
+      "go-to-market"
+    ]
+  },
+  {
+    "id": "concept_cac_ltv",
+    "pergunta": "O que são CAC e LTV?",
+    "resposta": "CAC: custo para adquirir um cliente. LTV: valor presente do lucro bruto gerado por um cliente no ciclo de vida. A razão LTV/CAC orienta escala sustentável.",
+    "tags": [
+      "cac",
+      "ltv",
+      "unit economics",
+      "saas"
+    ]
+  },
+  {
+    "id": "concept_duplicatas_antecipacao",
+    "pergunta": "O que é antecipação de recebíveis (duplicatas/factoring)?",
+    "resposta": "Venda/cessão de títulos a receber com deságio para antecipar caixa. Melhora liquidez, mas aumenta custo financeiro; avaliar impacto no CCC.",
+    "tags": [
+      "recebíveis",
+      "factoring",
+      "capital de giro",
+      "tesouraria"
+    ]
+  },
+  {
+    "id": "concept_compliance_fiscal",
+    "pergunta": "Por que compliance fiscal é crítico no financeiro?",
+    "resposta": "Garante obrigações acessórias, escrituração correta e evita multas. Integração ERP-fiscal reduz retrabalho e riscos em auditorias.",
+    "tags": [
+      "fiscal",
+      "compliance",
+      "erp",
+      "auditoria"
+    ]
+  },
+  {
+    "id": "concept_kpis_financeiros",
+    "pergunta": "Quais KPIs financeiros acompanhar no ERP?",
+    "resposta": "Exemplos: margem bruta, EBITDA, prazo médio de recebimento/pagamento, CCC, inadimplência, giro de estoque, PDD, Opex/Receita, LTV/CAC.",
+    "tags": [
+      "kpi",
+      "erp",
+      "controladoria",
+      "gestão"
+    ]
+  },
+  {
+    "id": "concept_integracao_bancaria",
+    "pergunta": "Como a integração bancária ajuda a tesouraria?",
+    "resposta": "Arquivos de retorno e extratos automáticos aceleram conciliação, reduzem erros manuais e melhoram visibilidade de caixa em tempo quase real.",
+    "tags": [
+      "integração bancária",
+      "cnab",
+      "tesouraria",
+      "automação"
+    ]
+  },
+  {
+    "id": "concept_workflow_aprovacao",
+    "pergunta": "Por que ter workflow de aprovação no ERP financeiro?",
+    "resposta": "Segmenta alçadas, aplica segregação de funções e cria trilha de auditoria. Reduz fraudes e melhora governança nas despesas e pagamentos.",
+    "tags": [
+      "workflow",
+      "governança",
+      "erp",
+      "compliance"
+    ]
+  },
+  {
+    "id": "concept_reconhecimento_receita",
+    "pergunta": "Como funciona reconhecimento de receita em serviços/SAAS?",
+    "resposta": "Em competência, receita é reconhecida conforme entrega/tempo, não no recebimento. Em SaaS, rateio por período (accrual) e controle de inadimplência.",
+    "tags": [
+      "receita",
+      "competência",
+      "saas",
+      "contabilidade"
+    ]
+  },
+  {
+    "id": "concept_cash_pooling",
+    "pergunta": "O que é cash pooling?",
+    "resposta": "Estrutura para centralizar saldos de múltiplas contas/empresas, reduzindo custos financeiros e otimizando uso de caixa no grupo.",
+    "tags": [
+      "cash pooling",
+      "tesouraria",
+      "liquidez",
+      "grupo econômico"
+    ]
+  }
+]

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <title>Login Pulse</title>
+  <link rel="canonical" href="https://login.opulse.com.br/" />
+</head>
+<body>
+  <main class="container">
+    <form id="loginForm">
+      <img src="IMG/Pulse_Logo.png" alt="Logo Pulse">
+      <div class="input-box">
+        <input id="user" placeholder="Usuário" type="email" required>
+        <i class="bx bxs-user"></i>
+      </div>
+      <div class="input-box">
+        <input id="password" placeholder="Senha" type="password" required>
+        <i class="bx bxs-lock-alt"></i>
+      </div>
+
+      <div class="remember-forgot">
+        <label><input type="checkbox"> Lembrar senha</label>
+        <a href="#" id="resetLink">Esqueci a senha</a>
+      </div>
+
+      <button type="submit" class="login">Login</button>
+
+      <div id="errorMessage" style="color:#ff3860; margin-top:10px; text-align:center;"></div>
+
+      <div class="register-link">
+        <p>Não tem uma conta? <a href="https://form.respondi.app/j11nIzzC">Clique Aqui</a></p>
+      </div>
+    </form>
+  </main>
+
+  <!-- Firebase (compat) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+  <script>
+    // COLE SUA CONFIG DO FIREBASE AQUI
+    const firebaseConfig = {
+      apiKey: "AIzaSyA3IBhXqGhMerXktYSRv94nISwRtSrRMvg",
+      authDomain: "pure-business-b273b.firebaseapp.com",
+      projectId: "pure-business-b273b",
+      appId: "1:7533649165:web:19653a0da0b034bb1aa444",
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    const form = document.getElementById('loginForm');
+    const emailInput = document.getElementById('user');
+    const passInput  = document.getElementById('password');
+    const errorDiv   = document.getElementById('errorMessage');
+    const resetLink  = document.getElementById('resetLink');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorDiv.textContent = '';
+      try {
+        await auth.signInWithEmailAndPassword(emailInput.value, passInput.value);
+        window.location.href = '/dashboard.html';
+      } catch (err) {
+        console.error(err);
+        errorDiv.textContent = 'E-mail ou senha inválidos.';
+      }
+    });
+
+    resetLink.addEventListener('click', async (e) => {
+      e.preventDefault();
+      if (!emailInput.value) { errorDiv.textContent = 'Informe seu e-mail para resetar a senha.'; return; }
+      try {
+        await auth.sendPasswordResetEmail(emailInput.value);
+        errorDiv.style.color = '#16a34a';
+        errorDiv.textContent = 'E-mail de recuperação enviado.';
+      } catch (err) {
+        errorDiv.style.color = '#ff3860';
+        errorDiv.textContent = 'Não foi possível enviar o e-mail de recuperação.';
+      }
+    });
+  </script>
+</body>
+</html>

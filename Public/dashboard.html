@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dashboard Pulse</title>
+    <script src="https://cdn.powerbi.com/libs/powerbi-client/2.23.1/powerbi.min.js"></script>
+    <style>
+        body { margin: 0; background-color: #f4f4f4; font-family: Arial, sans-serif; }
+        #reportContainer { height: 100vh; width: 100%; }
+        #topbar { position: fixed; right: 10px; top: 10px; z-index: 10; }
+        #logoutBtn { padding: 8px 12px; background:#0f172a; color:#fff; border:none; border-radius:6px; cursor:pointer; }
+    </style>
+</head>
+<body>
+    <div id="topbar"><button id="logoutBtn">Sair</button></div>
+    <div id="reportContainer"></div>
+
+    <!-- Firebase (compat) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script>
+        // Mesma config do login
+        const firebaseConfig = {
+            apiKey: "AIzaSyA3IBhXqGhMerXktYSRv94nISwRtSrRMvg",
+            authDomain: "pure-business-b273b.firebaseapp.com",
+            projectId: "pure-business-b273b",
+            appId: "1:7533649165:web:19653a0da0b034bb1aa444"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        async function loadReport() {
+            const user = auth.currentUser;
+            if (!user) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            const idToken = await user.getIdToken(false);
+
+            // Se o backend estiver em outra origem/porta, use a URL completa, ex: http://localhost:3000/getEmbedToken
+            const res = await fetch('https://api-pulse-heibm9k4c-brunos-projects-cf16a7ed.vercel.app', {
+                headers: { Authorization: `Bearer ${idToken}` }
+            });
+            const data = await res.json();
+            if (!data.ok) {
+                console.error('Falha ao gerar token:', data);
+                return;
+            }
+
+            const models = window['powerbi-client'].models;
+            const embedConfig = {
+                type: 'report',
+                id: data.reportId,
+                embedUrl: data.embedUrl,
+                accessToken: data.embedToken, // corrigido: backend retorna embedToken
+                tokenType: models.TokenType.Embed,
+                settings: {
+                    panes: { filters: { visible: false }, pageNavigation: { visible: true } }
+                }
+            };
+
+            const container = document.getElementById('reportContainer');
+            powerbi.embed(container, embedConfig);
+        }
+
+        auth.onAuthStateChanged(u => { if (u) loadReport(); else window.location.href = '/login.html'; });
+
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            await auth.signOut();
+            window.location.href = '/login.html';
+        });
+    </script>
+
+    <!-- Pulse Chat Widget (inserido antes do </body>) -->
+    <script>
+    (function() {
+        "use strict";
+
+        // ======= CONFIGURAÇÕES =======
+        const API_URL = "http://127.0.0.1:8787/chat";  // ajuste para o endpoint ativo
+        const BRAND_NAME = "Pulse";
+        const THEME = {
+            primary: "#6C3CF0",
+            primaryDark: "#4E2AB8",
+            text: "#1F2937",
+            bg: "#FFFFFF",
+            userBubble: "#E9D8FD",
+            botBubble: "#F3F4F6",
+            border: "#E5E7EB"
+        };
+        const STORAGE_KEY = "pulse_chat_history_v1";
+        const PLACEHOLDER = "Digite sua pergunta (ex.: O que é capital de giro?)";
+
+        // ======= ESTADO =======
+        let isOpen = false;
+        let history = [];
+
+        // ======= ROOT + SHADOW DOM =======
+        const root = document.createElement("div");
+        root.id = "pulse-chat-widget-root";
+        root.style.all = "initial";
+        root.style.position = "fixed";
+        root.style.zIndex = "999999";
+        root.style.bottom = "20px";
+        root.style.right = "20px";
+        document.body.appendChild(root);
+        const shadow = root.attachShadow({ mode: "open" });
+
+        // ======= ESTILOS =======
+        const style = document.createElement("style");
+        style.textContent = `
+            :host { all: initial; }
+            .pcw-container {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+                color: ${THEME.text};
+            }
+            .pcw-button {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                width: 56px;
+                height: 56px;
+                border-radius: 9999px;
+                background: ${THEME.primary};
+                border: none;
+                box-shadow: 0 10px 18px rgba(0,0,0,0.15);
+                color: #fff;
+                cursor: pointer;
+                transition: background 0.2s ease, transform 0.1s ease;
+            }
+            .pcw-button:hover { background: ${THEME.primaryDark}; transform: translateY(-1px); }
+            .pcw-button:active { transform: translateY(0); }
+            .pcw-panel {
+                position: fixed;
+                bottom: 84px;
+                right: 20px;
+                width: 360px;
+                max-width: calc(100vw - 40px);
+                height: 520px;
+                max-height: calc(100vh - 120px);
+                background: ${THEME.bg};
+                border: 1px solid ${THEME.border};
+                border-radius: 12px;
+                box-shadow: 0 14px 28px rgba(0,0,0,0.18);
+                display: none;
+                flex-direction: column;
+                overflow: hidden;
+            }
+            .pcw-panel.open { display: flex; }
+            .pcw-header {
+                background: linear-gradient(135deg, ${THEME.primary}, ${THEME.primaryDark});
+                color: #fff;
+                padding: 12px 14px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+            .pcw-title {
+                font-weight: 600;
+                font-size: 14px;
+            }
+            .pcw-close {
+                background: transparent;
+                border: none;
+                color: #fff;
+                font-size: 18px;
+                cursor: pointer;
+            }
+            .pcw-body {
+                flex: 1;
+                background: #FAFAFB;
+                padding: 12px;
+                overflow-y: auto;
+            }
+            .pcw-msg {
+                margin: 8px 0;
+                display: flex;
+                gap: 8px;
+            }
+            .pcw-msg.user { justify-content: flex-end; }
+            .pcw-bubble {
+                max-width: 80%;
+                padding: 10px 12px;
+                border-radius: 12px;
+                font-size: 13px;
+                line-height: 1.35;
+                border: 1px solid ${THEME.border};
+                white-space: pre-wrap;
+                word-break: break-word;
+            }
+            .pcw-msg.user .pcw-bubble {
+                background: ${THEME.userBubble};
+                border-color: rgba(0,0,0,0.06);
+            }
+            .pcw-msg.bot .pcw-bubble {
+                background: ${THEME.botBubble};
+                border-color: rgba(0,0,0,0.06);
+            }
+            .pcw-footer {
+                padding: 10px;
+                background: #FFFFFF;
+                border-top: 1px solid ${THEME.border};
+                display: flex;
+                gap: 8px;
+                align-items: center;
+            }
+            .pcw-input {
+                flex: 1;
+                border: 1px solid ${THEME.border};
+                border-radius: 10px;
+                padding: 10px 12px;
+                font-size: 13px;
+                outline: none;
+            }
+            .pcw-input:focus { border-color: ${THEME.primary}; }
+            .pcw-send {
+                background: ${THEME.primary};
+                color: #fff;
+                border: none;
+                border-radius: 10px;
+                padding: 10px 12px;
+                cursor: pointer;
+                font-weight: 600;
+            }
+            .pcw-send:disabled { background: #BDBDBD; cursor: not-allowed; }
+            .pcw-hint {
+                font-size: 11px;
+                color: #6B7280;
+                padding: 6px 12px 10px 12px;
+            }
+            .pcw-error {
+                color: #B00020;
+                font-size: 12px;
+                margin-top: 4px;
+            }
+            .pcw-brand {
+                font-size: 11px;
+                color: #9CA3AF;
+                padding: 6px 12px 12px 12px;
+            }
+            .pcw-spinner {
+                border: 3px solid #f3f3f3;
+                border-top: 3px solid ${THEME.primary};
+                border-radius: 50%;
+                width: 16px;
+                height: 16px;
+                animation: pcw-spin 0.8s linear infinite;
+                margin-top: 6px;
+            }
+            @keyframes pcw-spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+        `;
+        shadow.appendChild(style);
+
+        // ======= ESTRUTURA =======
+        const container = document.createElement("div");
+        container.className = "pcw-container";
+
+        container.innerHTML = `
+            <button class="pcw-button" title="Abrir chat ${BRAND_NAME}" aria-label="Abrir chat ${BRAND_NAME}">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="#fff" style="margin-top: 4px; margin-left: 2px;">
+                    <path d="M20 2H4C2.895 2 2 2.895 2 4V22L6 18H20C21.105 18 22 17.105 22 16V4C22 2.895 21.105 2 20 2Z"></path>
+                </svg>
+            </button>
+            <div class="pcw-panel" role="dialog" aria-label="Chat ${BRAND_NAME}">
+                <div class="pcw-header">
+                    <div class="pcw-title">${BRAND_NAME} • Consultora Financeira</div>
+                    <button class="pcw-close" aria-label="Fechar">×</button>
+                </div>
+                <div class="pcw-body" id="pcwBody"></div>
+                <div class="pcw-hint">Dica: faça perguntas objetivas. Ex.: “Diferença entre competência e caixa?”</div>
+                <div class="pcw-footer">
+                    <input class="pcw-input" id="pcwInput" type="text" placeholder="${PLACEHOLDER}" />
+                    <button class="pcw-send" id="pcwSend">Enviar</button>
+                </div>
+                <div class="pcw-brand">Base: FAQs financeiras empresariais • Histórico local</div>
+            </div>
+        `;
+        shadow.appendChild(container);
+
+        // ======= ELEMENTOS =======
+        const btnToggle = shadow.querySelector(".pcw-button");
+        const panel = shadow.querySelector(".pcw-panel");
+        const btnClose = shadow.querySelector(".pcw-close");
+        const bodyEl = shadow.querySelector("#pcwBody");
+        const inputEl = shadow.querySelector("#pcwInput");
+        const sendEl = shadow.querySelector("#pcwSend");
+
+        // ======= HISTÓRICO =======
+        function loadHistory() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (!raw) return [];
+                const parsed = JSON.parse(raw);
+                if (!Array.isArray(parsed)) return [];
+                return parsed;
+            } catch (e) {
+                return [];
+            }
+        }
+        function saveHistory() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+            } catch (e) {
+                // ignore
+            }
+        }
+
+        // ======= RENDER =======
+        function addMessage(text, who) {
+            const row = document.createElement("div");
+            row.className = "pcw-msg " + (who === "user" ? "user" : "bot");
+            const bubble = document.createElement("div");
+            bubble.className = "pcw-bubble";
+            bubble.textContent = text;
+            row.appendChild(bubble);
+            bodyEl.appendChild(row);
+            bodyEl.scrollTop = bodyEl.scrollHeight;
+        }
+
+        function addSpinner() {
+            const row = document.createElement("div");
+            row.className = "pcw-msg bot";
+            const bubble = document.createElement("div");
+            bubble.className = "pcw-bubble";
+            const spinner = document.createElement("div");
+            spinner.className = "pcw-spinner";
+            bubble.appendChild(spinner);
+            row.appendChild(bubble);
+            bodyEl.appendChild(row);
+            bodyEl.scrollTop = bodyEl.scrollHeight;
+            return row;
+        }
+
+        function renderHistory() {
+            bodyEl.innerHTML = "";
+            history.forEach(m => addMessage(m.text, m.who));
+        }
+
+        // ======= AÇÕES =======
+        function togglePanel(forceOpen) {
+            isOpen = typeof forceOpen === "boolean" ? forceOpen : !isOpen;
+            if (isOpen) {
+                panel.classList.add("open");
+                inputEl.focus();
+            } else {
+                panel.classList.remove("open");
+            }
+        }
+
+        async function sendMessage() {
+            if (!text) return;
+            inputEl.value = "";
+            addMessage(text, "user");
+            history.push({ who: "user", text });
+            saveHistory();
+
+            sendEl.disabled = true;
+            const spinnerRow = addSpinner();
+
+            try {
+                const r = await fetch(API_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message: text })
+                });
+                const data = await r.json().catch(() => ({}));
+                const reply = (data && data.reply) ? data.reply : "Não consegui interpretar a resposta da API.";
+                spinnerRow.remove();
+                addMessage(reply, "bot");
+                history.push({ who: "bot", text: reply });
+                saveHistory();
+            } catch (e) {
+                spinnerRow.remove();
+                const msg = "Falha ao contatar a API. Verifique conexão, CORS e URL do endpoint.";
+                addMessage(msg, "bot");
+                history.push({ who: "bot", text: msg });
+                saveHistory();
+            } finally {
+                sendEl.disabled = false;
+                inputEl.focus();
+            }
+        }
+
+        // ======= EVENTOS =======
+        btnToggle.addEventListener("click", function() { togglePanel(); });
+        btnClose.addEventListener("click", function() { togglePanel(false); });
+        sendEl.addEventListener("click", function() { sendMessage(); });
+        inputEl.addEventListener("keydown", function(e) {
+            if (e.key === "Enter") { sendMessage(); }
+        });
+
+        // ======= INICIALIZAÇÃO =======
+        history = loadHistory();
+        if (history.length === 0) {
+            const welcome = `Olá! Eu sou a consultora financeira da ${BRAND_NAME}. Pergunte sobre DRE, fluxo de caixa, capital de giro, aging, conciliação, NPV/IRR e mais.`;
+            history.push({ who: "bot", text: welcome });
+            saveHistory();
+        }
+        renderHistory();
+    })();
+    </script>
+</body>
+</html>
